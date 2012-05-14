@@ -1,0 +1,23 @@
+var settings = exports;
+settings.AUTH = '_AUTH_USER_HERE_READ_URL_TO_THE_RIGHT_'; //README: https://github.com/alaingilbert/Turntable-API/wiki/How-to-find-the:-auth,-userid-and-roomid
+settings.USERID = '_REPLACE_WITH_USER_ID_';
+settings.ROOMID = '_REPLACE_WITH_ROOM_ID_';
+settings.BOT_NAME = 'Taco Bot';
+settings.BOT_SHORTNAME = 'taco';
+settings.RULES_URL = 'http://www.example.com/rules_page_here.html'
+settings.BOT_MODERATORS_ARRAY = ['4f671b49590ca246ed01db9b','4f9b545caaa5cd2af400022f']; //Bot Moderators - Put your user id's here. Room mods will be able to mod your bot.
+settings.ROOM_MODS_ARE_BOT_ADMINS = 0; //Allow room mods to automatically be bot admins? todo
+settings.DEBUG_LOGS = 1; //enable printing to console log.
+settings.VOTE_POLLING = 1;
+settings.AUTO_AWESOME = 0; //not implemented: http://faq.turntable.fm/customer/portal/articles/258935
+settings.GREET_ON_ENTER = 1;
+settings.GREET_ON_EXIT = 0;
+settings.TALK_IN_CHAT = 1;
+settings.TALK_IN_PRIVATE = 1;
+//not configured yet
+settings.DJ_ON = '/dj win';
+settings.DJ_OFF = '/dj win off';
+//settings.DJ_ANNOUNCEMENTS = TRUE;
+settings.ADDME = '*addme'; //todo
+settings.REMOVEME = '*removeme'; //todo
+settings.OFFTHEME = '/offtheme'; //todo
