@@ -27,4 +27,3 @@ The bot can:
 I'm usually hanging out in the [I ♥ The 80's](http://turntable.fm/i_the_80s) room on Turntable.
 If I'm on Turntable, I'm usually working, so please try getting it to work before contacting me.
 
-Help site will be at http://www.audiodisco.com/ eventually.
