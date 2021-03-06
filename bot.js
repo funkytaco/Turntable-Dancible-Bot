@@ -220,11 +220,6 @@ var getDownAfterSong = true; //do not edit
 				
 
 
-				*This is the function that adds the DJ to the table using the command youcandj *Inversely, to remove your bot as a DJ, use the nomoredj command:
-
-
-
-				*But that's not enough. How are you going to add songs? How about with addsong
 
 				if (text.match(/^\*addsong$/)) {
 				bot.roomInfo(true, function(data) {
@@ -235,9 +230,6 @@ var getDownAfterSong = true; //do not edit
 				});
 				}
 
-				Special note for this: rather than like adding it to a queue, this song will go to the top, not the bottom. Also, as of now, I know of no way to adjust the queue.
-
-				*And you can use skip to skip the song
 
 				if (text.match(/^\*skip$/)) {
 				if (data.userid != "youruserid") { bot.speak("You ain't my master."); }
