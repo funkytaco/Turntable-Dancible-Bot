@@ -147,7 +147,7 @@ var getDownAfterSong = true; //do not edit
                                                 // Bot gets on the DJ table (if there's a spot open) on /go command
                                                 bot.addDj();
                                         }
-										var cmds = text.includes(/^\!stop$/) || text.includes(/^\/stop$/);
+										var cmds = text.matches(/^\!stop$/) || text.matches(/^\/stop$/);
                                         if (cmds) {
                                                 // Bot jumps off the table on /stop command
                                                 bot.remDj(settings.USERID);
