@@ -147,17 +147,17 @@ var getDownAfterSong = true; //do not edit
                                                 // Bot gets on the DJ table (if there's a spot open) on /go command
                                                 bot.addDj();
                                         }
-										var cmds = text.matches(/^\!stop$/) || text.matches(/^\/stop$/);
+										var cmds = text.includes('!stop') || text.includes('/stop');
                                         if (cmds) {
                                                 // Bot jumps off the table on /stop command
                                                 bot.remDj(settings.USERID);
                                         }
-										var cmds = text.match(/^\/skip$/);
+										var cmds = text.includes('/skip');
                                         if (cmds) {
                                                 // Bot skips it's own song (if bot is the current DJ) on /skip command
                                                 bot.skip();
                                         }
-										var cmds = text.match(/^\/addsong$/);
+										var cmds = text.includes('/addsong');
 
                                         if (cmds) {
                                         // Bot adds song to the bottom of it's DJ queue on /addsong command
