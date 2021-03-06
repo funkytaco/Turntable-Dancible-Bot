@@ -108,7 +108,7 @@ var getDownAfterSong = true; //do not edit
                                         //* Basic DJ Functions * //
 										var cmds = text.includes('!up') || text.includes("hi") || text.includes('howdy');
 										if (cmds) {
-												bot.speak('Matched', matched)
+												bot.speak('Matched', cmds)
                                                 bot.addDj();
                                                 bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
 
