@@ -106,17 +106,21 @@ var getDownAfterSong = true; //do not edit
                                 if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
 
                                         //* Basic DJ Functions * //
-
-                                        if (text.match(/^\!up$/) || text.match(/^\*youcandj$/)) {
+										var cmds = text.includes('!up') || text.includes("hi") || text.includes('howdy');
+										if (cmds) {
+												bot.speak('Matched', matched)
                                                 bot.addDj();
-                                                //bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
+                                                bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
 
                                         }
-                                        if (text.match(/^\!down$/) || text.match(/^\*nomoredj$/)) {
+										var cmds = text.includes('!down') || text.includes('*nomoredj');
+
+                                        if (cmds) {
                                                 bot.remDj();
-                                                //bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
+                                                bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
                                         }
-                                        if (text.match(/^\!add$/) || text.match(/^\*addsong$/)) {
+										var cmds = text.includes('!add') || text.includes('*addsong');
+                                        if (cmds) {
                                         bot.roomInfo(true, function(data) {
                                                 var newSong = data.room.metadata.current_song._id;
                                                 var newSongName = songName = data.room.metadata.current_song.metadata.song;
@@ -124,26 +128,38 @@ var getDownAfterSong = true; //do not edit
                                                 bot.speak(':heavy_plus_sign:  '+newSongName+''); //:heavy_minus_sign: 
                                         });
                                         }
-                                        if (text.match(/^\!skip$/) || text.match(/^\*skip$/)) {
+										var cmds = text.includes('!skip') || text.includes('*skip');
+
+                                        if (cmds) {
                                                 bot.skip();
+												bot.speak('Skipping.');
                                         }
 
+
+
                                         /* MANUAL DJ FUNCTIONS */
+
                                         bot.on ('speak', function (data) {
                                         var text = data.text;
-                                        if (text.match(/^\!go$/) || text.match(/^\/go$/)) {
+
+										var cmds = text.includes('!go') || text.includes('/go');
+                                        if (cmds) {
                                                 // Bot gets on the DJ table (if there's a spot open) on /go command
                                                 bot.addDj();
                                         }
-                                        if (text.match(/^\!stop$/) || text.match(/^\/stop$/)) {
+										var cmds = text.includes(/^\!stop$/) || text.includes(/^\/stop$/);
+                                        if (cmds) {
                                                 // Bot jumps off the table on /stop command
-                                                bot.remDj(USERID);
+                                                bot.remDj(settings.USERID);
                                         }
-                                        if (text.match(/^\/skip$/)) {
+										var cmds = text.match(/^\/skip$/);
+                                        if (cmds) {
                                                 // Bot skips it's own song (if bot is the current DJ) on /skip command
                                                 bot.skip();
                                         }
-                                        if (text.match(/^\/addsong$/)) {
+										var cmds = text.match(/^\/addsong$/);
+
+                                        if (cmds) {
                                         // Bot adds song to the bottom of it's DJ queue on /addsong command
                                                 bot.playlistAll(function (data) {
                                                 bot.playlistAdd(songId, data.list.length);
