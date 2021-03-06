@@ -6,9 +6,9 @@
 var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
-var BOT_VERSION = '0.1.0';
-var imDjing = false; //do not edit
-var getDownAfterSong = false; //do not edit
+var BOT_VERSION = '0.1.1';
+var imDjing = true; //do not edit
+var getDownAfterSong = true; //do not edit
 
 /** Settings File - Adjust accordingly.	**/
 	
@@ -107,16 +107,16 @@ var getDownAfterSong = false; //do not edit
 
 					//* Basic DJ Functions * //
 
-					if (text.match(/^\*youcandj$/)) {
+					if (text.match(/^\!up$/) || text.match(/^\*youcandj$/)) {
 						bot.addDj();
-						bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
+						//bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
 
 					}
-					if (text.match(/^\*nomoredj$/)) {
+					if (text.match(/^\!down$/) || text.match(/^\*nomoredj$/)) {
 						bot.remDj();
-						bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
+						//bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
 					}	
-					if (text.match(/^\*addsong$/)) {
+					if (text.match(/^\!add$/) || text.match(/^\*addsong$/)) {
 					bot.roomInfo(true, function(data) {
 						var newSong = data.room.metadata.current_song._id;
 						var newSongName = songName = data.room.metadata.current_song.metadata.song;
@@ -124,18 +124,18 @@ var getDownAfterSong = false; //do not edit
 						bot.speak(':heavy_plus_sign:  '+newSongName+''); //:heavy_minus_sign: 
 					});
 					}
-					if (text.match(/^\*skip$/)) {
+					if (text.match(/^\!skip$/) || text.match(/^\*skip$/)) {
 						bot.skip();
 					}		
 					
 					/* MANUAL DJ FUNCTIONS */
 					bot.on ('speak', function (data) {
 					var text = data.text;
-					if (text.match(/^\/go$/)) {
+					if (text.match(/^\!go$/) || text.match(/^\/go$/)) {
 						// Bot gets on the DJ table (if there's a spot open) on /go command
 						bot.addDj();
 					}
-					if (text.match(/^\/stop$/)) {
+					if (text.match(/^\!stop$/) || text.match(/^\/stop$/)) {
 						// Bot jumps off the table on /stop command
 						bot.remDj(USERID);
 					}
