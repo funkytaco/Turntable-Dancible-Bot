@@ -1,16 +1,19 @@
 var settings = exports;
 /** BEGIN PASTE OF BOOKMARKLET VARIABLES **/
-
+var AUTH = 'NvRxELdVhJsFUMYsMvdLCfIT';
+var USERID = '6043d52c47b5e3001f34b29a';
+var ROOMID = '6040fe553f4bfc001b27d4c7';
 /** END PASTE OF BOOKMARKLET VARIABLES **/
 
 //DO NOT EDIT THIS SECTION - SEE "ADDITIONAL INFO" IN README
 settings.AUTH = AUTH; 
 settings.USERID = USERID; 
-settings.ROOMID = ROOMID; 
+settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
+
 
 //OPTIONAL SETTINGS & CUSTOMIZATIONS
-settings.BOT_NAME = 'DJ Funky Taco Bot';
-settings.BOT_SHORTNAME = 'tacobot';
+settings.BOT_NAME = 'Dancible';
+settings.BOT_SHORTNAME = 'd';
 settings.RULES_URL = 'http://www.dancible.com/events/rules.html'
 settings.BOT_MODERATORS_ARRAY = ['4f671b49590ca246ed01db9b', USERID ]; //NOTE: Every bot needs a user account.
 //settings.ROOM_MODS_ARE_BOT_ADMINS = 0; //Allow room mods to automatically be bot admins? todo
