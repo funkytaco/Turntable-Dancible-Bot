@@ -7,7 +7,8 @@ var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
 var BOT_VERSION = '0.1.0';
-
+var imDjing = false; //do not edit
+var getDownAfterSong = false; //do not edit
 
 /** Settings File - Adjust accordingly.	**/
 	
@@ -100,12 +101,12 @@ var BOT_VERSION = '0.1.0';
 					bot.speak('<3');
 				}
 
-				//* Basic DJ Functions 
-
-				** //
 
 				//begin if bot mod
 				if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
+
+					//* Basic DJ Functions * //
+
 					if (text.match(/^\*youcandj$/)) {
 						bot.addDj();
 						bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
@@ -125,7 +126,93 @@ var BOT_VERSION = '0.1.0';
 					}
 					if (text.match(/^\*skip$/)) {
 						bot.skip();
-					}			
+					}		
+					
+					/* MANUAL DJ FUNCTIONS */
+					bot.on ('speak', function (data) {
+					var text = data.text;
+					if (text.match(/^\/go$/)) {
+						// Bot gets on the DJ table (if there's a spot open) on /go command
+						bot.addDj();
+					}
+					if (text.match(/^\/stop$/)) {
+						// Bot jumps off the table on /stop command
+						bot.remDj(USERID);
+					}
+					if (text.match(/^\/skip$/)) {
+						// Bot skips it's own song (if bot is the current DJ) on /skip command
+						bot.skip();
+					}
+					if (text.match(/^\/addsong$/)) {
+					// Bot adds song to the bottom of it's DJ queue on /addsong command
+						bot.playlistAll(function (data) {
+						bot.playlistAdd(songId, data.list.length);
+					}); 
+						bot.snag();
+					}
+					});
+
+					/* AUTO DJ FUNCTIONS */
+					bot.on('roomChanged',  function (data) {
+						bot.roomInfo(true, function(data) {
+						// Get the DJ count upon entering the room
+						var djcount = data.room.metadata.djcount;
+						// If DJ count less than or equal to 1, get on decks 	
+						if (djcount <= 1){
+						bot.addDj();
+						}
+						});
+					});
+
+					bot.on ('newsong', function (data) {
+						// Check if bot is the new DJ when new song begins
+						var djid = data.room.metadata.current_song.djid;
+						if (djid == USERID){
+						imDjing = true;
+						}
+					});
+
+					bot.on ('endsong', function (data) {
+						// Update 'imDjing' when Bot's song ends
+						var djid = data.room.metadata.current_song.djid;
+						if (djid == USERID){
+						imDjing = false;
+						}
+
+						// If triggered to get down during Bot's song, step down now
+						if (getDownAfterSong == true){
+						bot.remDj(USERID);
+						getDownAfterSong = false;
+						}
+					});
+
+					bot.on('add_dj', function (data) {
+						// Check the DJ count when a new DJ steps up
+						bot.roomInfo (true, function(data) {
+						var djcount = data.room.metadata.djcount;
+						// If there's enough DJ's now, bot steps down.	
+						if (djcount >= 3){
+						// If bot's song is currently playing, let's have the bot step down when it ends
+						if (imDjing){
+						getDownAfterSong = true;
+						} else {
+						bot.remDj(USERID);
+						}
+						}
+						});
+					});
+
+					bot.on ('rem_dj', function (data) {
+						// Checks DJ count when a DJ steps down
+						bot.roomInfo (true, function(data) {
+						var djcount = data.room.metadata.djcount;
+						// If there aren't enough DJ's, bot steps up
+						if (djcount <= 1){
+						bot.addDj();
+						}
+						});
+					});
+
 				} else {
 					bot.skip(':information_source: you are not a mod, fam.')
 				}
@@ -215,6 +302,9 @@ var BOT_VERSION = '0.1.0';
 					/** fart **/
 					if (text.match(/^poop$/)) {
 						bot.speak('feart.');
+						bot.snag();
+						bot.snag();
+						bot.snag();
 						bot.snag();
 					}
 					/** Disconnect from Turntable.fm **/
