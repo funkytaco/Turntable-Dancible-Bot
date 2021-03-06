@@ -183,7 +183,7 @@ var getDownAfterSong = true; //do not edit
                                         bot.on ('newsong', function (data) {
                                                 // Check if bot is the new DJ when new song begins
                                                 var djid = data.room.metadata.current_song.djid;
-                                                if (djid == USERID){
+                                                if (djid == settings.USERID){
                                                 imDjing = true;
                                                 }
                                         });
@@ -191,13 +191,13 @@ var getDownAfterSong = true; //do not edit
                                         bot.on ('endsong', function (data) {
                                                 // Update 'imDjing' when Bot's song ends
                                                 var djid = data.room.metadata.current_song.djid;
-                                                if (djid == USERID){
+                                                if (djid == settings.USERID){
                                                 imDjing = false;
                                                 }
 
                                                 // If triggered to get down during Bot's song, step down now
                                                 if (getDownAfterSong == true){
-                                                bot.remDj(USERID);
+                                                bot.remDj(settings.USERID);
                                                 getDownAfterSong = false;
                                                 }
                                         });
@@ -212,7 +212,7 @@ var getDownAfterSong = true; //do not edit
                                                 if (imDjing){
                                                 getDownAfterSong = true;
                                                 } else {
-                                                bot.remDj(USERID);
+                                                bot.remDj(settings.USERID);
                                                 }
                                                 }
                                                 });
