@@ -7,7 +7,7 @@ var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
 var BOT_VERSION = '0.1.2';
-var imDjing = true; //do not edit
+var imDjing = false; //do not edit
 var getDownAfterSong = true; //do not edit
 
 /** Settings File - Adjust accordingly. **/
@@ -106,20 +106,19 @@ var getDownAfterSong = true; //do not edit
                                 if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
 
                                         //* Basic DJ Functions * //
-										var cmds = text.includes('!up') || text.includes("hi") || text.includes('howdy');
+					var cmds = text.includes('!getup') || text.includes("!dj") || text.includes('*youcandj');
 										if (cmds) {
-												bot.speak('Matched', cmds)
                                                 bot.addDj();
                                                 bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
 
                                         }
-										var cmds = text.includes('!down') || text.includes('*nomoredj');
 
+					var cmds = text.includes('!getdown') || text.includes('*nomoredj');
                                         if (cmds) {
                                                 bot.remDj();
                                                 bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
                                         }
-										var cmds = text.includes('!add') || text.includes('*addsong');
+					var cmds = text.includes('!add') || text.includes('*addsong');
                                         if (cmds) {
                                         bot.roomInfo(true, function(data) {
                                                 var newSong = data.room.metadata.current_song._id;
@@ -128,8 +127,8 @@ var getDownAfterSong = true; //do not edit
                                                 bot.speak(':heavy_plus_sign:  '+newSongName+''); //:heavy_minus_sign: 
                                         });
                                         }
-										var cmds = text.includes('!skip') || text.includes('*skip');
 
+					var cmds = text.includes('!skip') || text.includes('*skip');
                                         if (cmds) {
                                                 bot.skip();
 												bot.speak('Skipping.');
@@ -184,7 +183,9 @@ var getDownAfterSong = true; //do not edit
                                                 // Check if bot is the new DJ when new song begins
                                                 var djid = data.room.metadata.current_song.djid;
                                                 if (djid == settings.USERID){
-                                                imDjing = true;
+                                                        imDjing = true;
+                                                } else {
+                                                        imDjing = false;
                                                 }
                                         });
 
@@ -192,13 +193,13 @@ var getDownAfterSong = true; //do not edit
                                                 // Update 'imDjing' when Bot's song ends
                                                 var djid = data.room.metadata.current_song.djid;
                                                 if (djid == settings.USERID){
-                                                imDjing = false;
+                                                        imDjing = false;
                                                 }
 
                                                 // If triggered to get down during Bot's song, step down now
                                                 if (getDownAfterSong == true){
-                                                bot.remDj(settings.USERID);
-                                                getDownAfterSong = false;
+                                                        bot.remDj(settings.USERID);
+                                                        getDownAfterSong = false;
                                                 }
                                         });
 
