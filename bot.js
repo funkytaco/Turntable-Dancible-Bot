@@ -51,13 +51,14 @@ var BOT_VERSION = '0.1.0';
 		var listeners = room.metadata.listeners;
 		var djcount = room.metadata.djcount;
 		bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-		bot.speak(':man:: '+listeners+' :hash: dj\'s: :'+djcount+':');
+		bot.speak(':man:: '+listeners+' | :hash: viewers: :'+djcount+':');
 		});
 	}
 	
 	/** settings.AUTO_AWESOME - Use with caution **/
 	if (settings.AUTO_AWESOME) {
 		/**	if you want to fork my code and add an auto bop, have at it. **/
+		bot.bop(''); //bop on join
 	}
 	
 	/** settings.TALK_IN_CHAT **/
@@ -78,6 +79,86 @@ var BOT_VERSION = '0.1.0';
 				if (text.match('/djs')) {
 					if (dJList) bot.speak('DJs: '+dJList+'');
 				}
+				if (text.match('/snag')) {
+					//have bot snag current song
+					bot.playlistAdd(currentsong.id, playlist.list.length); 
+					bot.snag();
+					bot.speak('<3');
+				}
+				if (text.match('/snaglast')) {
+					//https://github.com/alaingilbert/Turntable-API/wiki/Adding-a-song-to-your-playlist
+					bot.playlistAdd(currentsong.id, -1);
+					bot.snag();
+					bot.speak('<3');
+				}
+
+				if (text.match('/fanboy')) {
+					//https://github.com/alaingilbert/Turntable-API/wiki/AutoSnag-and-Fan-current-DJ
+					bot.playlistAdd(data.room.metadata.current_song._id);
+					bot.snag();
+					bot.becomeFan(data.room.metadata.current_dj);
+					bot.speak('<3');
+				}
+
+				//* Basic DJ Functions 
+
+				** //
+
+				//begin if bot mod
+				if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
+					if (text.match(/^\*youcandj$/)) {
+						bot.addDj();
+						bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
+
+					}
+					if (text.match(/^\*nomoredj$/)) {
+						bot.remDj();
+						bot.speak(':heavy_minus_sign: I have stepped down. Who is next?')
+					}	
+					if (text.match(/^\*addsong$/)) {
+					bot.roomInfo(true, function(data) {
+						var newSong = data.room.metadata.current_song._id;
+						var newSongName = songName = data.room.metadata.current_song.metadata.song;
+						bot.playlistAdd(newSong);
+						bot.speak(':heavy_plus_sign:  '+newSongName+''); //:heavy_minus_sign: 
+					});
+					}
+					if (text.match(/^\*skip$/)) {
+						bot.skip();
+					}			
+				} else {
+					bot.skip(':information_source: you are not a mod, fam.')
+				}
+
+				
+
+
+				*This is the function that adds the DJ to the table using the command youcandj *Inversely, to remove your bot as a DJ, use the nomoredj command:
+
+
+
+				*But that's not enough. How are you going to add songs? How about with addsong
+
+				if (text.match(/^\*addsong$/)) {
+				bot.roomInfo(true, function(data) {
+					var newSong = data.room.metadata.current_song._id;
+					var newSongName = songName = data.room.metadata.current_song.metadata.song;
+					bot.playlistAdd(newSong);
+					bot.speak('Added '+newSongName+' to queue.');
+				});
+				}
+
+				Special note for this: rather than like adding it to a queue, this song will go to the top, not the bottom. Also, as of now, I know of no way to adjust the queue.
+
+				*And you can use skip to skip the song
+
+				if (text.match(/^\*skip$/)) {
+				if (data.userid != "youruserid") { bot.speak("You ain't my master."); }
+				else                             { bot.skip();                        }
+				}
+
+
+				https://www.youtube.com/watch?v=dQw4w9WgXcQ
 				/** if bot name is mentioned **/
 				if (text.match(settings.BOT_NAME)) {
 					bot.speak('That\'s my name, don\'t wear it out!');
