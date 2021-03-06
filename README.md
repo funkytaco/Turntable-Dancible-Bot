@@ -3,6 +3,7 @@ This bought was written 9 years ago and updated for Turntable.fm
 
 https://turntable.fm/dancible Hang out here if you like House Music
 
+Support: Try our Discord server linked from https://www.dancible.com
 
 A very basic, customizable Turntable.fm bot written in javascript for Node.js utilizing [ttapi](https://github.com/alaingilbert/Turntable-API).
 
