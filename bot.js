@@ -10,6 +10,8 @@ var BOT_VERSION = '0.1.3';
 var imDjing = false; //do not edit
 var getDownAfterSong = true; //do not edit
 
+
+
 /** Settings File - Adjust accordingly. **/
 
         var settings = require('./bot_settings.js');
@@ -207,7 +209,11 @@ var getDownAfterSong = true; //do not edit
                                                 }
                                         
                                                
-                                                await bot.speak(msg);
+                                                 bot.speak(msg);
+
+                                                 setTimeout(function(){
+                                                        bot.speak(msg); //prevent bot flood
+                                                }, 10);
 
                                         });
 
