@@ -234,7 +234,7 @@ var getDownAfterSong = true; //do not edit
 
                                                 // If there aren't enough DJ's, bot steps up
                                                 if (djcount < 1){
-                                                        bot.addDj();
+                                                        bot.addDj(settings.USERID);
                                                         bot.speak('min', settings.MINIMUM_HUMAN_DJ_COUNT);
                                                         bot.speak('bot shoud dj', settings.BOT_SHOULD_DJ);
                                                         bot.speak('am i djing', imDjing);
@@ -274,11 +274,12 @@ var getDownAfterSong = true; //do not edit
                                 https://www.youtube.com/watch?v=dQw4w9WgXcQ
                                 /** if bot name is mentioned **/
                                 if (text.match(settings.BOT_NAME)) {
+                                        console.log('name match:', text);
                                         bot.speak('That\'s my name, don\'t wear it out!');
                                 }
                                 /** Room Rules **/
                                 if (text.match(/^(?:\*|\/)rules$/)) {
-                                bot.speak('See '+settings.ROOM_RULES_URL+' for the room rules.');
+                                bot.speak('See '+settings.RULES_URL+' for the room rules.');
                                 }
                                 /** Song Information **/
                                 if (text.match(/^\/songinfo$/)) {
