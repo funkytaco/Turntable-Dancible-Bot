@@ -234,7 +234,7 @@ var getDownAfterSong = true; //do not edit
 
                                                 // If there aren't enough DJ's, bot steps up
                                                 if (djcount < 1){
-                                                        bot.addDj(settings.USERID);
+                                                        bot.addDj();
                                                         bot.speak('min', settings.MINIMUM_HUMAN_DJ_COUNT);
                                                         bot.speak('bot shoud dj', settings.BOT_SHOULD_DJ);
                                                         bot.speak('am i djing', imDjing);
