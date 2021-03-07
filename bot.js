@@ -7,8 +7,8 @@ var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
 var BOT_VERSION = '0.1.0';
-var imDjing = false; //do not edit
-var getDownAfterSong = false; //do not edit
+var imDjing = true; //do not edit
+var getDownAfterSong = true; //do not edit
 
 /** Settings File - Adjust accordingly.	**/
 	
