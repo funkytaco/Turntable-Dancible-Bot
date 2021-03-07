@@ -178,7 +178,7 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo(true, function(data) {
                                                 // Get the DJ count upon entering the room
                                                 var djcount = data.room.metadata.djcount;
-                                                bot.speak('DJ Count:', JSON.stringify(data));
+                                                console.log('DJ Count:', JSON.stringify(data));
                                                 // If DJ count less than or equal to setting, get on decks 
                                                 if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY > 0 &&  djcount == 0){
                                                         bot.speak('Since nobody else wants to spin...');
@@ -263,8 +263,11 @@ var getDownAfterSong = true; //do not edit
 
 
                                 if (text.match(/^\*skip$/)) {
-                                if (data.userid != "youruserid") { bot.speak("You ain't my master."); }
-                                else                             { bot.skip();                        }
+                                        if (data.userid != "youruserid") { 
+                                                bot.speak("You ain't my master."); 
+                                        } else 
+                                        {       bot.skip();
+                                        }
                                 }
 
 
