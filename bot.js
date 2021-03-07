@@ -180,6 +180,7 @@ var getDownAfterSong = true; //do not edit
                                                 //var djcount = data.room.metadata.djcount
                                         
                                                 //});
+                                                bot.speak('room changed');
                                         });
 
                                         bot.on ('newsong', function (data) {
