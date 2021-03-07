@@ -517,7 +517,7 @@ var getDownAfterSong = true; //do not edit
               usersList[user.userid] = user;
            }
 
-                bot.speak('DJ Count: ', data.room.metadata.djcount);
+                bot.speak('DJ Count: roomchanged.... ', data.room.metadata.djcount);
 
                 if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
                         bot.speak('Since nobody else wants to spin...');
