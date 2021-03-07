@@ -84,6 +84,12 @@ var getDownAfterSong = true; //do not edit
 
                                 //begin if bot mod
                                 if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
+					
+                                        var cmds = text.includes('!skip') || text.includes('*skip');
+                                        if (cmds) {
+                                                bot.skip();						
+                                                bot.speak('Skipping.');
+                                        }
 
                                         //* Basic DJ Functions * //
 					var cmds = text.includes('!getup') || text.includes("!dj") || text.includes('*youcandj');
@@ -109,11 +115,7 @@ var getDownAfterSong = true; //do not edit
                                         });
                                         }
 
-					var cmds = text.includes('!skip') || text.includes('*skip');
-                                        if (cmds) {
-                                                bot.skip();
-												bot.speak('Skipping.');
-                                        }
+
 
 
 
