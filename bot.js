@@ -536,7 +536,6 @@ var getDownAfterSong = true; //do not edit
            user.lastActivity = new Date();
            usersList[user.userid] = user;
         
-           bot.speak('DJ Count: Enter', data.room.metadata.djcount);
 
         });
 
