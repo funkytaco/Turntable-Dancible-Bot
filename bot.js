@@ -7,7 +7,7 @@ var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
 var BOT_VERSION = '0.1.3';
-var imDjing = false; //do not edit
+var imDjing = true; //do not edit
 var getDownAfterSong = true; //do not edit
 
 /** Settings File - Adjust accordingly. **/
@@ -233,8 +233,11 @@ var getDownAfterSong = true; //do not edit
                                                 var djcount = data.room.metadata.djcount;
 
                                                 // If there aren't enough DJ's, bot steps up
-                                                if (djcount < settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0 || settings.BOT_SHOULD_DJ > 0){
+                                                if (!imDjing && djcount < settings.MINIMUM_HUMAN_DJ_COUNT && settings.BOT_SHOULD_DJ > 0){
                                                         bot.addDj();
+                                                        bot.speak('min', settings.MINIMUM_HUMAN_DJ_COUNT);
+                                                        bot.speak('bot shoud dj', settings.BOT_SHOULD_DJ);
+                                                        bot.speak('am i djing', imDjing);
                                                         bot.speak('I\'m gonna hop on the decks... say /zero to set minimum DJ count to zero.');
 
                                                 }
