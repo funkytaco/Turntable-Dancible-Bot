@@ -535,6 +535,9 @@ var getDownAfterSong = true; //do not edit
                 }
            user.lastActivity = new Date();
            usersList[user.userid] = user;
+        
+           bot.speak('DJ Count: Enter', data.room.metadata.djcount);
+
         });
 
         // Someone left, remove him from the users list.
@@ -573,6 +576,8 @@ var getDownAfterSong = true; //do not edit
         bot.on('rem_dj', function (data) {
            var user = data.user[0];
            usersList[user.userid].lastActivity = new Date();
+
+           bot.speak('DJ Count:  rem_dj ', data.room.metadata.djcount);
 
         });
 
