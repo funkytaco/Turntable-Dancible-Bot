@@ -221,10 +221,11 @@ var getDownAfterSong = true; //do not edit
                                         });
 
                                         bot.on ('rem_dj', function (data) {
-                                                bot.speak('A DJ has stepped down');
                                                 // Checks DJ count when a DJ steps down
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
+                                                bot.speak('A DJ has stepped down. DJ count: ' + djcount);
+
                                                 // If there aren't enough DJ's, bot steps up
                                                 if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0 && settings.BOT_SHOULD_DJ > 0){
                                                         bot.addDj();
