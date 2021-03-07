@@ -477,11 +477,11 @@ var getDownAfterSong = true; //do not edit
                         }
 
                         /** Upvote Current Song **/
-                        if (text.match(/^\/upvote|up$/)) {
+                        if (text.match(/^\/upvote|up|\!up$/)) {
                                 bot.bop();
                         }
                         /** Downvote Current Song **/
-                        if (text.match(/^\/downvote|down$/)) {
+                        if (text.match(/^\/downvote|down\!down$/)) {
                                 bot.vote('down');
                         }
                         /** Skip Current Song if bot is DJ'ing **/
