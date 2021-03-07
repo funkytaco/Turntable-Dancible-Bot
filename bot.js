@@ -168,7 +168,6 @@ var getDownAfterSong = true; //do not edit
                                         }
                                         var cmds = text.includes('/zero') || text.includes('!zero');
                                         if (cmds) {
-                                                settings.MINIMUM_HUMAN_DJ_COUNT = 0;
                                                 bot.remDj();
                                         }
 
@@ -180,7 +179,7 @@ var getDownAfterSong = true; //do not edit
                                                 // Get the DJ count upon entering the room
                                                 var djcount = data.room.metadata.djcount;
                                                 // If DJ count less than or equal to setting, get on decks 
-                                                if (settings.MINIMUM_HUMAN_DJ_COUNT <= 1){
+                                                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  djcount == 0){
                                                         bot.speak('Since nobody else wants to spin...');
                                                         bot.addDj();
                                                 }

@@ -10,9 +10,8 @@ settings.AUTH = AUTH;
 settings.USERID = USERID; 
 settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
 
-//IMPORTANT
-settings.MINIMUM_HUMAN_DJ_COUNT = 1; //Bot will hop on decks after th
-settings.BOT_SHOULD_DJ = 1; //Bot will hop on decks after th
+//BOT DJ
+settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY = 1; //Bot will hop on decks after th
 settings.SHOUTOUT_TO_NEW_DJ_ON_DECK = 1;
 
 
@@ -31,6 +30,5 @@ settings.TALK_IN_CHAT = 1;
 settings.TALK_IN_PRIVATE = 1;
 
 //settings.DJ_ANNOUNCEMENTS = TRUE;
-settings.ADDME = '*addme'; //todo
 settings.REMOVEME = '*removeme'; //todo
 settings.OFFTHEME = '/offtheme'; //todo
