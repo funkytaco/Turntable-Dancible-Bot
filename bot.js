@@ -206,6 +206,7 @@ var getDownAfterSong = true; //do not edit
 
                                                 // If triggered to get down during Bot's song, step down now
                                                 if (getDownAfterSong == true){
+                                                        bot.speak('Stepping down since my song is over. Thanks for the <3');
                                                         bot.remDj(settings.USERID);
                                                         getDownAfterSong = false;
                                                 }
