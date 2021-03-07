@@ -458,12 +458,12 @@ var getDownAfterSong = true; //do not edit
                 if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
 
                         /** Am I a bot admin? **/
-                        if (text.match(/^\/botadmin$/)) {
+                        if (text.match(/^\/botadmin$/) || text.match(/^\!botadmin$/) ) {
                                 bot.pm('Yes, you\'re my admin.',sender);
                         } 
 
                         /** Make Bot DJ if spot is open **/
-                        if (text.match(/^\/dj$/)) {
+                        if (text.match(/^\/dj$/) || text.match(/^\!dj$/)) {
 
                                 bot.pm('Okay.',sender);
                                 bot.addDj();
