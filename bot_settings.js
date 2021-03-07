@@ -11,7 +11,7 @@ settings.USERID = USERID;
 settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
 
 //IMPORTANT
-settings.HUMAN_DJ_COUNT = 1;
+settings.MINIMUM_HUMAN_DJ_COUNT = 1; //Bot will hop on decks after th
 
 
 //OPTIONAL SETTINGS & CUSTOMIZATIONS
