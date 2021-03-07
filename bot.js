@@ -6,7 +6,7 @@
 var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
-var BOT_VERSION = '0.1.2';
+var BOT_VERSION = '0.1.3';
 var imDjing = false; //do not edit
 var getDownAfterSong = true; //do not edit
 
@@ -523,7 +523,7 @@ var getDownAfterSong = true; //do not edit
                 if (user.userid != settings.USERID) {
                         if (settings.GREET_ON_ENTER) bot.speak('Welcome, '+user.name+'!');
                 } else {
-                        bot.speak('Hey guys. I am back. (v. '+BOT_VERSION+')');
+                        bot.speak('Hey guys. I am back. (Dancible Bot v. '+BOT_VERSION+')');
                 }
            user.lastActivity = new Date();
            usersList[user.userid] = user;
