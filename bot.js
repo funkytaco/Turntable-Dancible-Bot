@@ -52,13 +52,12 @@ var getDownAfterSong = true; //do not edit
                 var listeners = room.metadata.listeners;
                 var djcount = room.metadata.djcount;
                 bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                bot.speak(':man:: '+listeners+' clubgoers :'+djcount+':');
+                bot.speak(':man:: '+listeners+' :musical_score: On Deck :'+djcount+':');
                 });
         }
 
         /** settings.AUTO_AWESOME - Use with caution **/
         if (settings.AUTO_AWESOME) {
-                /**     if you want to fork my code and add an auto bop, have at it. **/
                 bot.bop(''); //bop on join
         }
 
