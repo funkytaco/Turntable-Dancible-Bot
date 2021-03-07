@@ -52,7 +52,7 @@ var getDownAfterSong = true; //do not edit
                 var listeners = room.metadata.listeners;
                 var djcount = room.metadata.djcount;
                 bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                bot.speak(':man:: '+listeners+' dancers :'+djcount+':');
+                bot.speak(':man:: '+listeners+' clubgoers :'+djcount+':');
                 });
         }
 
@@ -212,9 +212,9 @@ var getDownAfterSong = true; //do not edit
                                                 if (djcount > settings.MINIMUM_DJ_COUNT_BEFORE_BOT_DJS + 1){
                                                 // If bot's song is currently playing, let's have the bot step down when it ends
                                                 if (imDjing){
-                                                getDownAfterSong = true;
+                                                        getDownAfterSong = true;
                                                 } else {
-                                                bot.remDj(settings.USERID);
+                                                        bot.remDj(settings.USERID);
                                                 }
                                                 }
                                                 });
@@ -225,8 +225,9 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
                                                 // If there aren't enough DJ's, bot steps up
-                                                if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT){
-                                                bot.addDj();
+                                                if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0){
+                                                        bot.addDj();
+                                                        bot.speaks('I\'m gonna hop on the decks...');
                                                 }
                                                 });
                                         });
