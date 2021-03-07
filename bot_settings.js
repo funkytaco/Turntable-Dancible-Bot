@@ -13,7 +13,7 @@ settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
 //IMPORTANT
 settings.MINIMUM_HUMAN_DJ_COUNT = 1; //Bot will hop on decks after th
 settings.BOT_SHOULD_DJ = 1; //Bot will hop on decks after th
-
+settings.SHOUTOUT_TO_NEW_DJ_ON_DECK = 1;
 
 
 //OPTIONAL SETTINGS & CUSTOMIZATIONS

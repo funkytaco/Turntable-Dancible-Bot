@@ -166,6 +166,12 @@ var getDownAfterSong = true; //do not edit
                                         }); 
                                                 bot.snag();
                                         }
+                                        var cmds = text.includes('/zero') || text.includes('!zero');
+                                        if (cmds) {
+                                                settings.MINIMUM_HUMAN_DJ_COUNT = 0;
+                                                bot.remDj();
+                                        }
+
                                         });
 
                                         /* AUTO DJ FUNCTIONS */
@@ -229,7 +235,8 @@ var getDownAfterSong = true; //do not edit
                                                 // If there aren't enough DJ's, bot steps up
                                                 if (djcount < settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0 || settings.BOT_SHOULD_DJ > 0){
                                                         bot.addDj();
-                                                        bot.speak('I\'m gonna hop on the decks...');
+                                                        bot.speak('I\'m gonna hop on the decks... say /zero to set minimum DJ count to zero.');
+
                                                 }
                                                 });
                                         });
@@ -547,9 +554,11 @@ var getDownAfterSong = true; //do not edit
 
         // Someone stepped up to DJ, update his timestamp.
         bot.on('add_dj', function (data) {
-           var user = data.user[0];
-                //bot.speak('Are you ready for DJ '+user.name+'?!');
-           usersList[user.userid].lastActivity = new Date();
+                var user = data.user[0];
+                if (settings.SHOUTOUT_TO_NEW_DJ_ON_DECK) {
+                        bot.speak('Are you ready for DJ '+user.name+'?!');
+                }
+                usersList[user.userid].lastActivity = new Date();
         });
 
         // Someone step down, update his timestamp.
