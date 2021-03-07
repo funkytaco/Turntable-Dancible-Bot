@@ -42,19 +42,21 @@ var getDownAfterSong = true; //do not edit
 
         /** settings.VOTE_POLLING **/
 
-        if (settings.VOTE_POLLING) {
 
-                bot.on('endsong', function (data) {
+
+        bot.on('endsong', function (data) {
                 console.log(data);
                 var room = data.room;
                 var upvotes = room.metadata.upvotes;
                 var downvotes = room.metadata.downvotes;
                 var listeners = room.metadata.listeners;
                 var djcount = room.metadata.djcount;
-                bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                bot.speak(':ear: '+listeners+' :bow: '+djcount+' DJ\'s');
-                });
-        }
+                if (settings.DISPLAY_UPVOTES_DOWNVOTES_AFTER_ENDSONG) {
+                        bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
+                        bot.speak(':ear: '+listeners+' :bow: '+djcount+' DJ\'s');
+                }
+
+        });
 
         /** settings.AUTO_AWESOME - Use with caution **/
         if (settings.AUTO_AWESOME) {
