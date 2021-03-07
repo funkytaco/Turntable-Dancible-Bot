@@ -11,9 +11,12 @@ A very basic, customizable Turntable.fm bot written in javascript for Node.js ut
 
 ### Git Clone This Repo
 `git clone https://github.com/funkytaco/Turntable-Dancible-Bot;`
-`cd Turntable-API-Taco-Bot`
-### Install NodeJS > 12.x and Turntable API
+
+`cd Turntable-Dancible-Bot`
+### Install NodeJS > 12.x and Turntable API (If Not Using Openshift)
+
 `npm install nodejs;`
+
 `npm install ttapi;`
 
 ### Join The Chat Room
