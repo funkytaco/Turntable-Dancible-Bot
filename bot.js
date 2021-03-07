@@ -52,7 +52,7 @@ var getDownAfterSong = true; //do not edit
                 var listeners = room.metadata.listeners;
                 var djcount = room.metadata.djcount;
                 bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                bot.speak(':man:: '+listeners+' | :hash: viewers: :'+djcount+':');
+                bot.speak(':man:: '+listeners+' dancers :'+djcount+':');
                 });
         }
 
@@ -107,7 +107,8 @@ var getDownAfterSong = true; //do not edit
 
                                         //* Basic DJ Functions * //
 					var cmds = text.includes('!getup') || text.includes("!dj") || text.includes('*youcandj');
-										if (cmds) {
+					if (cmds) {
+
                                                 bot.addDj();
                                                 bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
 
@@ -141,7 +142,7 @@ var getDownAfterSong = true; //do not edit
                                         bot.on ('speak', function (data) {
                                         var text = data.text;
 
-					var cmds = text.includes('!go') || text.includes('/go');
+					var cmds = text.includes('!getup') || text.includes('!go') || text.includes('/go');
                                         if (cmds) {
                                                 // Bot gets on the DJ table (if there's a spot open) on /go command
                                                 bot.addDj();
@@ -442,7 +443,7 @@ var getDownAfterSong = true; //do not edit
                    }
 
 
-                        if (text.match(/^test$/)) {
+                        if (text.match(/^hello$/)) {
                                 //if (moderatorList.indexOf(user) >= 0) {
                                 if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
                                         bot.pm('hi mod',sender);
@@ -460,21 +461,7 @@ var getDownAfterSong = true; //do not edit
                         /** Am I a bot admin? **/
                         if (text.match(/^\/botadmin$/) || text.match(/^\!botadmin$/) ) {
                                 bot.pm('Yes, you\'re my admin.',sender);
-                        } 
-
-                        /** Make Bot DJ if spot is open **/
-                        if (text.match(/^\!getup$/) || text.match(/^\/dj$/) || text.match(/^\!dj$/) ) {
-
-                                bot.pm('Okay.',sender);
-                                bot.addDj();
-                        }
-
-                        /** Make Bot quit DJ'ing **/
-                        if (text.match(/^\/dj off$/)) {
-
-                                bot.pm('Okay.',sender);
-                                bot.remDj();
-                        }
+                        }                         
 
                         /** Upvote Current Song **/
                         if (text.match(/^\/upvote|up|\!up$/)) {
