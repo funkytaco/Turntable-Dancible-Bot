@@ -40,34 +40,9 @@ var getDownAfterSong = true; //do not edit
         }); 
 
 
-        /** settings.VOTE_POLLING **/
-
-
-
-        bot.on('endsong', function (data) {
-                console.log(data);
-                var room = data.room;
-                var upvotes = room.metadata.upvotes;
-                var downvotes = room.metadata.downvotes;
-                var listeners = room.metadata.listeners;
-                var djcount = room.metadata.djcount;
-                if (settings.DISPLAY_UPVOTES_DOWNVOTES_AFTER_ENDSONG) {
-                        bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                        bot.speak(':ear: '+listeners+' :bow: '+djcount+' DJ\'s');
-                }
-                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
-                        bot.speak('Since nobody else wants to spin...');
-                        bot.addDj();
-                }
-
-        });
-
-        /** settings.AUTO_AWESOME - Use with caution **/
         if (settings.AUTO_AWESOME) {
                 bot.bop(''); //bop on join
         }
-
-        /** settings.TALK_IN_CHAT **/
 
         if (settings.TALK_IN_CHAT) {
 
@@ -200,7 +175,11 @@ var getDownAfterSong = true; //do not edit
                                         bot.on ('endsong', function (data) {
                                                 // Update 'imDjing' when Bot's song ends
                                                 var djid = data.room.metadata.current_song.djid;                                               
-                                                
+                                                var room = data.room;
+                                                var upvotes = room.metadata.upvotes;
+                                                var downvotes = room.metadata.downvotes;
+                                                var listeners = room.metadata.listeners;
+                                                var djcount = room.metadata.djcount;
                                                
                                                 if (djid != settings.USERID){
                                                         imDjing = false;
@@ -211,6 +190,21 @@ var getDownAfterSong = true; //do not edit
                                                         bot.remDj(settings.USERID);
                                                       //  getDownAfterSong = false;
                                                 }
+
+
+                                                
+                                                //console.log(data);
+                                               
+                                                if (settings.DISPLAY_UPVOTES_DOWNVOTES_AFTER_ENDSONG) {
+                                                        bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
+                                                        bot.speak(':ear: '+listeners+' :bow: '+djcount+' DJ\'s');
+                                                }
+                                                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
+                                                        bot.speak('Since nobody else wants to spin...');
+                                                        bot.addDj();
+                                                }
+                                        
+                                               
 
 
                                         });
