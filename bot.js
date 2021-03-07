@@ -577,8 +577,6 @@ var getDownAfterSong = true; //do not edit
            var user = data.user[0];
            usersList[user.userid].lastActivity = new Date();
 
-           bot.speak('DJ Count:  rem_dj ', data.room.metadata.djcount);
-
         });
 
         // Someone add the surrent song to his playlist.
