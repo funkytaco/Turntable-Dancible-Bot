@@ -173,9 +173,10 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo(true, function(data) {
                                                 // Get the DJ count upon entering the room
                                                 var djcount = data.room.metadata.djcount;
-                                                // If DJ count less than or equal to 1, get on decks 
-                                                if (djcount <= 1){
-                                                bot.addDj();
+                                                // If DJ count less than or equal to setting, get on decks 
+                                                if (settings.MINIMUM_HUMAN_DJ_COUNT <= 1){
+                                                        bot.speak('Since nobody else wants to spin...');
+                                                        bot.addDj();
                                                 }
                                                 });
                                         });
@@ -224,7 +225,6 @@ var getDownAfterSong = true; //do not edit
                                                 // Checks DJ count when a DJ steps down
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
-                                                bot.speak('A DJ has stepped down. DJ count: ' + djcount);
 
                                                 // If there aren't enough DJ's, bot steps up
                                                 if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0 && settings.BOT_SHOULD_DJ > 0){
