@@ -199,17 +199,17 @@ var getDownAfterSong = true; //do not edit
 
                                         bot.on ('endsong', function (data) {
                                                 // Update 'imDjing' when Bot's song ends
-                                                var djid = data.room.metadata.current_song.djid;
-
-                                                // If triggered to get down during Bot's song, step down now
-                                                if (getDownAfterSong == true && imDjing){
-                                                        bot.speak('Stepping down since my song is over. Thanks for the <3');
-                                                        bot.remDj(settings.USERID);
-                                                        getDownAfterSong = false;
-                                                }
+                                                var djid = data.room.metadata.current_song.djid;                                               
+                                                
+                                               
                                                 if (djid != settings.USERID){
                                                         imDjing = false;
                                                         bot.speak('I am not the DJ');
+                                                } else {
+                                                        bot.speak('I am the DJ');
+                                                        bot.speak('Stepping down since my song is over. Thanks for the <3');
+                                                        bot.remDj(settings.USERID);
+                                                      //  getDownAfterSong = false;
                                                 }
 
 
