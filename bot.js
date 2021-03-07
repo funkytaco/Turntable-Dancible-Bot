@@ -52,7 +52,7 @@ var getDownAfterSong = true; //do not edit
                 var listeners = room.metadata.listeners;
                 var djcount = room.metadata.djcount;
                 bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-                bot.speak(':man:: '+listeners+' :musical_score: On Deck :'+djcount+':');
+                bot.speak(':ear: '+listeners+'  On Deck '+djcount+' DJ\'s');
                 });
         }
 
