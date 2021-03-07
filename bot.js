@@ -106,7 +106,7 @@ var getDownAfterSong = false; //do not edit
 				if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
 
 					//* Basic DJ Functions * //
-
+					/*** 
 					if (text.match(/^\*youcandj$/)) {
 						bot.addDj();
 						bot.speak(':heavy_plus_sign: I have stepped up. It\'s about to get :satellite: lit'); //:heavy_minus_sign: 
@@ -126,7 +126,7 @@ var getDownAfterSong = false; //do not edit
 					}
 					if (text.match(/^\*skip$/)) {
 						bot.skip();
-					}		
+					}	***/	
 					
 					/* MANUAL DJ FUNCTIONS */
 					bot.on ('speak', function (data) {
