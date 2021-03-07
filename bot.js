@@ -177,10 +177,9 @@ var getDownAfterSong = true; //do not edit
                                         bot.on('roomChanged',  function (data) {
                                                 bot.roomInfo(true, function(data) {
                                                 // Get the DJ count upon entering the room
-                                                var djcount = data.room.metadata.djcount;
-                                                console.log('DJ Count:', JSON.stringify(data.room.metadata));
-                                                // If DJ count less than or equal to setting, get on decks 
-                                                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY > 0 &&  djcount == 0){
+                                                //var djcount = data.room.metadata.djcount;
+                                                
+                                                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY > 0 &&  data.room.metadata.djcount < 1){
                                                         bot.speak('Since nobody else wants to spin...');
                                                         bot.addDj();
                                                 }
