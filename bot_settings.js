@@ -10,6 +10,9 @@ settings.AUTH = AUTH;
 settings.USERID = USERID; 
 settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
 
+//IMPORTANT
+settings.MINIMUM_DJ_COUNT_BEFORE_BOT_DJS = 5;
+
 
 //OPTIONAL SETTINGS & CUSTOMIZATIONS
 settings.BOT_NAME = 'Dancible';

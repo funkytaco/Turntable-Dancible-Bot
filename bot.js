@@ -146,7 +146,7 @@ var getDownAfterSong = true; //do not edit
                                                 // Bot gets on the DJ table (if there's a spot open) on /go command
                                                 bot.addDj();
                                         }
-										var cmds = text.includes('!stop') || text.includes('/stop');
+										var cmds = text.includes('!stop') || text.includes('/stop') || text.includes('!getdown') ||;
                                         if (cmds) {
                                                 // Bot jumps off the table on /stop command
                                                 bot.remDj(settings.USERID);
@@ -208,7 +208,7 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
                                                 // If there's enough DJ's now, bot steps down.
-                                                if (djcount >= 3){
+                                                if (djcount > settings.MINIMUM_DJ_COUNT_BEFORE_BOT_DJS + 1){
                                                 // If bot's song is currently playing, let's have the bot step down when it ends
                                                 if (imDjing){
                                                 getDownAfterSong = true;
@@ -224,7 +224,7 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
                                                 // If there aren't enough DJ's, bot steps up
-                                                if (djcount <= 1){
+                                                if (djcount < settings.MINIMUM_DJ_COUNT_BEFORE_BOT_DJS){
                                                 bot.addDj();
                                                 }
                                                 });
@@ -463,7 +463,7 @@ var getDownAfterSong = true; //do not edit
                         } 
 
                         /** Make Bot DJ if spot is open **/
-                        if (text.match(/^\/dj$/) || text.match(/^\!dj$/)) {
+                        if (text.match(/^\!getup$/) || text.match(/^\/dj$/) || text.match(/^\!dj$/) ) {
 
                                 bot.pm('Okay.',sender);
                                 bot.addDj();
