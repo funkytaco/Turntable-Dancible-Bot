@@ -516,6 +516,13 @@ var getDownAfterSong = true; //do not edit
               user.lastActivity = new Date();
               usersList[user.userid] = user;
            }
+
+                bot.speak('DJ Count: ', data.room.metadata.djcount);
+
+                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
+                        bot.speak('Since nobody else wants to spin...');
+                        bot.addDj();
+                }
         });
 
         // Someone enter the room, add him.
@@ -566,15 +573,7 @@ var getDownAfterSong = true; //do not edit
         bot.on('rem_dj', function (data) {
            var user = data.user[0];
            usersList[user.userid].lastActivity = new Date();
-        
-                bot.speak('A DJ has stepped down.');
-                bot.speak('DJ Count: ', data.room.metadata.djcount);
 
-                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
-                        bot.speak('Since nobody else wants to spin...');
-                        bot.addDj();
-                }
-        
         });
 
         // Someone add the surrent song to his playlist.
