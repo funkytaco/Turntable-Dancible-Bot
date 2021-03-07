@@ -179,7 +179,6 @@ var getDownAfterSong = true; //do not edit
                                                 //var djcount = data.room.metadata.djcount
                                         
                                                 //});
-                                                bot.speak('room changed');
                                         });
 
                                         bot.on ('newsong', function (data) {
@@ -228,7 +227,7 @@ var getDownAfterSong = true; //do not edit
                                                 var djcount = data.room.metadata.djcount;
 
                                                 // If there aren't enough DJ's, bot steps up
-                                                if (djcount < settings.MINIMUM_HUMAN_DJ_COUNT && settings.BOT_SHOULD_DJ > 0){
+                                                if (djcount < 1){
                                                         bot.addDj();
                                                         bot.speak('min', settings.MINIMUM_HUMAN_DJ_COUNT);
                                                         bot.speak('bot shoud dj', settings.BOT_SHOULD_DJ);
