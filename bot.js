@@ -570,7 +570,9 @@ var getDownAfterSong = true; //do not edit
            usersList[user.userid].lastActivity = new Date();
         
                 bot.speak('A DJ has stepped down.');
-                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY > 0 &&  data.room.metadata.djcount < 1){
+                bot.speak('DJ Count: ', data.room.metadata.djcount);
+
+                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
                         bot.speak('Since nobody else wants to spin...');
                         bot.addDj();
                 }
