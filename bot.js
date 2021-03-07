@@ -175,6 +175,7 @@ var getDownAfterSong = true; //do not edit
                                         });
 
                                         bot.on ('endsong', function (data) {
+                                                
                                                 // Update 'imDjing' when Bot's song ends
                                                 var msg = '';
                                                 var djid = data.room.metadata.current_song.djid;                                               
@@ -206,7 +207,7 @@ var getDownAfterSong = true; //do not edit
                                                 }
                                         
                                                
-                                                bot.speak(msg);
+                                                await bot.speak(msg);
 
                                         });
 
