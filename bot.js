@@ -186,10 +186,10 @@ var getDownAfterSong = true; //do not edit
                                                
                                                 if (djid != settings.USERID){
                                                         imDjing = false;
-                                                        msg .= 'I am not the DJ';
+                                                        msg += 'I am not the DJ';
                                                 } else {
-                                                        msg .= 'I am the DJ';
-                                                        msg .= 'Stepping down since my song is over. Thanks for the <3';
+                                                        msg += 'I am the DJ';
+                                                        msg += 'Stepping down since my song is over. Thanks for the <3';
                                                         //bot.remDj();xxx
                                                 }
 
@@ -197,11 +197,11 @@ var getDownAfterSong = true; //do not edit
                                                 
                                                
                                                 if (settings.DISPLAY_UPVOTES_DOWNVOTES_AFTER_ENDSONG) {
-                                                        msg .= ':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'';
-                                                        msg .=':ear: '+listeners+' :bow: '+djcount+' DJ\'s';
+                                                        msg += ':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'';
+                                                        msg +=':ear: '+listeners+' :bow: '+djcount+' DJ\'s';
                                                 }
                                                 if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
-                                                        msg .= 'Since nobody else wants to spin...';
+                                                        msg += 'Since nobody else wants to spin...';
                                                         //bot.addDj();xxx
                                                 }
                                         
