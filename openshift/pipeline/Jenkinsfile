@@ -1,0 +1,6 @@
+node('nodejs') {
+  stage 'build'
+  openshiftBuild(buildConfig: 'turntable-bancible-bot', showBuildLogs: 'true')
+  stage 'deploy'
+  openshiftDeploy(deploymentConfig: 'turntable-bancible-bot')
+}

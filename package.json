@@ -1,5 +1,35 @@
 {
+  "name": "turntable-dancible-bot",
+  "version": "0.0.1",
+  "description": "Turntable.FM Room Bot that can DJ automatically/manually, and perform basic DJ and room functions, compatible with Openshift Kubernetes",
+  "main": "bot.js",
   "dependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "mocha": "^2.4.5",
+    "mongodb": "^2.1.16",
+    "morgan": "^1.7.0",
+    "object-assign": "4.1.0",
     "ttapi": "^4.0.1"
-  }
+  },
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node bot.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/funkytaco/Turntable-Dancible-Bot.git"
+  },
+  "author": "Steve Speicher <sspeiche@gmail.com>",
+  "license": "CC-BY-1.0",
+  "bugs": {
+    "url": "https://github.com/funkytaco/Turntable-Dancible-Bot/issues"
+  },
+  "homepage": "https://dancible.com"
 }
