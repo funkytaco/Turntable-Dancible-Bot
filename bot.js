@@ -225,7 +225,7 @@ var getDownAfterSong = true; //do not edit
                                                 bot.roomInfo (true, function(data) {
                                                 var djcount = data.room.metadata.djcount;
                                                 // If there aren't enough DJ's, bot steps up
-                                                if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0){
+                                                if (djcount > settings.MINIMUM_HUMAN_DJ_COUNT || djcount == 0 && settings.BOT_SHOULD_DJ > 0){
                                                         bot.addDj();
                                                         bot.speaks('I\'m gonna hop on the decks...');
                                                 }
