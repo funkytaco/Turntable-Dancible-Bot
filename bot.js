@@ -189,9 +189,9 @@ var getDownAfterSong = true; //do not edit
                                                
                                                 if (djid != settings.USERID){
                                                         imDjing = false;
-                                                        msg += 'I am not the DJ';
+                                                        //msg += 'I am not the DJ';
                                                 } else {
-                                                        msg += 'I am the DJ';
+                                                        //msg += 'I am the DJ';
                                                         msg += 'Stepping down since my song is over. Thanks for the <3';
                                                         //bot.remDj();xxx
                                                 }
