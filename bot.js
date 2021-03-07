@@ -55,6 +55,10 @@ var getDownAfterSong = true; //do not edit
                         bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
                         bot.speak(':ear: '+listeners+' :bow: '+djcount+' DJ\'s');
                 }
+                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
+                        bot.speak('Since nobody else wants to spin...');
+                        bot.addDj();
+                }
 
         });
 
@@ -519,12 +523,7 @@ var getDownAfterSong = true; //do not edit
               usersList[user.userid] = user;
            }
 
-                bot.speak('DJ Count: roomchanged.... ', data.room.metadata.djcount);
 
-                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY &&  !data.room.metadata.djcount){
-                        bot.speak('Since nobody else wants to spin...');
-                        bot.addDj();
-                }
         });
 
         // Someone enter the room, add him.
