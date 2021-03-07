@@ -371,6 +371,7 @@ var getDownAfterSong = true; //do not edit
                                                         var djcount = room.metadata.djcount;
                                                         bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
                                                         bot.speak(':man:: '+listeners+' :hash: dj\'s: :'+djcount+':');
+                                                        
 
                                                    });
                                         }
@@ -567,6 +568,13 @@ var getDownAfterSong = true; //do not edit
         bot.on('rem_dj', function (data) {
            var user = data.user[0];
            usersList[user.userid].lastActivity = new Date();
+        
+                bot.speak('A DJ has stepped down.');
+                if (settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY > 0 &&  data.room.metadata.djcount < 1){
+                        bot.speak('Since nobody else wants to spin...');
+                        bot.addDj();
+                }
+        
         });
 
         // Someone add the surrent song to his playlist.
