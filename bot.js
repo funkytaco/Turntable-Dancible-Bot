@@ -6,9 +6,10 @@
 var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
-var BOT_VERSION = '0.1.4';
+var BOT_VERSION = '0.1.6';
 
-var objCurrSong;
+
+
 
 var bIsModerator = (user) => { 
 	if (settings.ROOM_MODS_ARE_BOT_ADMINS) {
@@ -22,24 +23,34 @@ var bIsModerator = (user) => {
 
 /** Settings File - Adjust accordingly.	**/
 	
-	var settings = require('./bot_settings.js');
+var settings = require('./settings.js');
 
 /** Connect to Turntable.fm **/
 
 	var bot = new Bot(settings.AUTH, settings.USERID, settings.ROOMID);
 
+	/* IMPORT MODULES */
+	var mod_autoDj = require('./mod_autodj');
+	mod_autoDj.init(settings);
+	var mod_autoBop = require('./mod_autobop');
+	mod_autoBop.init(settings);
+
 	/** SONG - newsong **/
 	bot.on('newsong', function(data) { 
 		/** settings.BOT_AUTO_AWESOME - Auto Bop **/
-		if (settings.BOT_AUTO_AWESOME) {
-			bot.bop();
-		}
+		mod_autoBop.newSong(data);
+		mod_autoDj.newSong(data);
+
+
 	});
 	/** SONG - nosong **/
 	bot.on('nosong', function(data) { 
 	});
 	/** SONG - endsong **/
 	bot.on('endsong', function(data) { 
+		/* Modules */
+		mod_autoDj.endSong(data, bot);
+
 	});
 
 	/** BOT - new_moderator **/
@@ -55,6 +66,10 @@ var bIsModerator = (user) => {
 				/** Update Room Moderators - on room join **/
 				moderatorList = data.room.metadata.moderator_id;
 				dJList = data.room.metadata.djs;
+				/* Modules */
+				mod_autoDj.roomChanged(bot);
+				mod_autoBop.roomChanged(bot);
+
 		
 				if (settings.DEBUG_LOGS) {
 		
@@ -97,12 +112,9 @@ var bIsModerator = (user) => {
 
 				/** if bot name is mentioned **/
 				if (text.match('/mods')) {
-					bot.speak('Moderators:');
-					console.log(moderatorList);
 					moderatorList.forEach(async function(element,idx) {
 
 						bot.getProfile(element, function (element) { 
-							//console.log('data for profile' + JSON.stringify(element)); 
 							if (element.name == settings.BOT_NAME) {
 								bot.speak(':kiss: ' + element.name);
 							} else {
@@ -111,6 +123,7 @@ var bIsModerator = (user) => {
 						});
 
 					})
+
 				}
 				if (text.match('/djs')) {
 					if (dJList) bot.speak('DJs: '+dJList+'');
@@ -157,6 +170,7 @@ var bIsModerator = (user) => {
 				/** Look in Moderators array or room mods to see if chatting with an admin.
 				If chatting with an admin, allow user to moderate. **/
 				if (bIsModerator(user)) {
+					//console.log('MODCHATDEBUG');
 
 					/** Update Bot's DJ Queue - push playing song to top of queue **/
 					if (text.match(/^\*top$/)) {
@@ -337,10 +351,12 @@ var bIsModerator = (user) => {
 				
 				/** settings.BOT_TALK_IN_PRIVATE: Upvote Current Song **/
 				if (text.match(/^\/upvote|up$/)) {
+					bot.pm('bopping. skipped songs slow bops.')
 					bot.bop();
 				}
 				/** settings.BOT_TALK_IN_PRIVATE: Downvote Current Song **/
 				if (text.match(/^\/downvote|down$/)) {
+					bot.pm('Downvoting.')
 					bot.vote('down');
 				}
 				/** settings.BOT_TALK_IN_PRIVATE: Skip Current Song if bot is DJ'ing **/
@@ -359,6 +375,8 @@ var bIsModerator = (user) => {
 							bot.playlistAdd(song);
 					});
 				} //end snag
+			} else {
+				bot.pm('Thanks for sliding into my DM\'s. I only talk to room moderators. :kiss:')
 			}
 		} //end if settings.BOT_TALK_IN_PRIVATE. This ends the private message section.
 
@@ -383,7 +401,10 @@ var bIsModerator = (user) => {
 	bot.on('registered',   function (data) {
 	   var user = data.user[0];
 		if (user.userid != settings.USERID) {
-			if (settings.BOT_GREET_ON_ENTER) bot.speak('Welcome, '+user.name+'!');
+			if (settings.BOT_GREET_ON_ENTER)  {
+				bot.speak('Welcome, '+user.name+'!');
+				bot.speak('Genres: House, Tech House, Bass House, G-House encouraged as well as dubstep, riddim, trance techno.');
+			}
 		} else {
 			bot.speak('Hey guys. I am back. (v. '+BOT_VERSION+')');	
 		}
@@ -421,20 +442,25 @@ var bIsModerator = (user) => {
 			bot.speak('Are you ready for DJ '+user.name+'?!');
 	   }
 	   usersList[user.userid].lastActivity = new Date();
+	   /* Modules */
+	   mod_autoDj.addDj(data, bot);
 	});
 
 	// Someone step down, update his timestamp.
 	bot.on('rem_dj', function (data) {
 	   var user = data.user[0];
 	   usersList[user.userid].lastActivity = new Date();
+	   /* Modules */
+	   mod_autoDj.remDj(data, bot);
+
 	});
 
 	// Someone add the surrent song to his playlist.
 	bot.on('snagged', function (data) {
 	   var userid = data.userid;
 	   usersList[userid].lastActivity = new Date();
+	   bop.snag();
 	});
 	//end userlist data
 
-	
 	

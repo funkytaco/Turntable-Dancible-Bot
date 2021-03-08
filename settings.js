@@ -11,9 +11,7 @@ settings.USERID = USERID;
 settings.ROOMID = ROOMID; //6040fe553f4bfc001b27d4c7
 
 //BOT DJ FUNCTIONS
-settings.BOT_SHOULD_DJ_IF_DECKS_EMPTY = 1;
-settings.BOT_SHOUTOUT_TO_NEW_DJ_ON_DECK = 1;
-
+//check settings_autodj.js
 
 //OPTIONAL SETTINGS & CUSTOMIZATIONS
 //Bot Name
@@ -25,6 +23,7 @@ settings.BOT_GREET_ON_EXIT = 0;
 settings.BOT_TALK_IN_CHAT = 1;
 settings.BOT_TALK_IN_PRIVATE = 1;
 settings.BOT_DISPLAY_UPVOTES_DOWNVOTES_AFTER_SONGEND = 1;
+settings.BOT_SHOUTOUT_TO_NEW_DJ_ON_DECK = 1;
 
 
 //Room Config
@@ -33,4 +32,4 @@ settings.ROOM_BOT_MODERATORS_ARRAY = ['4f671b49590ca246ed01db9b', USERID ]; //NO
 settings.ROOM_MODS_ARE_BOT_ADMINS = 1; //Allow room mods to automatically be bot admins? todo
 
 //DIAG
-settings.DEBUG_LOGS = 1; //enable printing to console log.
+settings.DEBUG_LOGS = 0; //enable printing to console log.
