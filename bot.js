@@ -6,8 +6,19 @@
 var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
-var BOT_VERSION = '0.1.0';
+var BOT_VERSION = '0.1.4';
 
+var objCurrSong;
+
+var bIsModerator = (user) => { 
+	if (settings.ROOM_MODS_ARE_BOT_ADMINS) {
+		//All room mods are bot admins
+		return settings.ROOM_BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0; 
+	} else {
+		//Only the mods specified in settings.ROOM_BOT_MODERATORS_ARRAY are bot admins
+		return settings.ROOM_BOT_MODERATORS_ARRAY.indexOf(user) >= 0; 
+	}
+} 
 
 /** Settings File - Adjust accordingly.	**/
 	
@@ -16,12 +27,30 @@ var BOT_VERSION = '0.1.0';
 /** Connect to Turntable.fm **/
 
 	var bot = new Bot(settings.AUTH, settings.USERID, settings.ROOMID);
-	
 
-	/** Update Room Moderators - on new mod, removed mod **/
-	bot.on('new_moderator', function(data) { bot.roomInfo(function(data) { moderatorList = data.room.metadata.moderator_id; }); });
-	bot.on('rem_moderator', function(data) { bot.roomInfo(function(data) { moderatorList = data.room.metadata.moderator_id; }); });
-	
+	/** SONG - newsong **/
+	bot.on('newsong', function(data) { 
+		/** settings.BOT_AUTO_AWESOME - Auto Bop **/
+		if (settings.BOT_AUTO_AWESOME) {
+			bot.bop();
+		}
+	});
+	/** SONG - nosong **/
+	bot.on('nosong', function(data) { 
+	});
+	/** SONG - endsong **/
+	bot.on('endsong', function(data) { 
+	});
+
+	/** BOT - new_moderator **/
+	bot.on('new_moderator', function(data) { 
+		bot.roomInfo(function(data) { moderatorList = data.room.metadata.moderator_id; }); 
+	});
+	/** BOT - rem_moderator **/
+	bot.on('rem_moderator', function(data) { 
+		bot.roomInfo(function(data) { moderatorList = data.room.metadata.moderator_id; }); 
+	});
+	/** BOT - roomChanged **/
 	bot.on('roomChanged', function (data) {
 				/** Update Room Moderators - on room join **/
 				moderatorList = data.room.metadata.moderator_id;
@@ -38,31 +67,26 @@ var BOT_VERSION = '0.1.0';
 	
 	}); 
 	
-	
 	/** settings.VOTE_POLLING **/
-
-	if (settings.VOTE_POLLING) {
 		
-		bot.on('endsong', function (data) {
-		console.log(data);
-		var room = data.room;
-		var upvotes = room.metadata.upvotes;
-		var downvotes = room.metadata.downvotes;
-		var listeners = room.metadata.listeners;
-		var djcount = room.metadata.djcount;
-		bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-		bot.speak(':man:: '+listeners+' :hash: dj\'s: :'+djcount+':');
-		});
-	}
+	bot.on('endsong', function (data) {
+			if (settings.BOT_DISPLAY_UPVOTES_DOWNVOTES_AFTER_SONGEND) {
+				var room = data.room;
+				var upvotes = room.metadata.upvotes;
+				var downvotes = room.metadata.downvotes;
+				var listeners = room.metadata.listeners;
+				var djcount = room.metadata.djcount;
+				bot.speak(':speaker: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
+				if (djcount == 0) {
+					//bot.speak('The decks are open.');
+				}
+			}
+	});
 	
-	/** settings.AUTO_AWESOME - Use with caution **/
-	if (settings.AUTO_AWESOME) {
-		/**	if you want to fork my code and add an auto bop, have at it. **/
-	}
 	
-	/** settings.TALK_IN_CHAT **/
+	/** settings.BOT_TALK_IN_CHAT **/
 	
-	if (settings.TALK_IN_CHAT) {
+	if (settings.BOT_TALK_IN_CHAT) {
 		
 		bot.on('speak', function (data) {
 		   // Get the data
@@ -73,14 +97,27 @@ var BOT_VERSION = '0.1.0';
 
 				/** if bot name is mentioned **/
 				if (text.match('/mods')) {
-					if (moderatorList) bot.speak('Mods: '+moderatorList+'');
+					bot.speak('Moderators:');
+					console.log(moderatorList);
+					moderatorList.forEach(async function(element,idx) {
+
+						bot.getProfile(element, function (element) { 
+							//console.log('data for profile' + JSON.stringify(element)); 
+							if (element.name == settings.BOT_NAME) {
+								bot.speak(':kiss: ' + element.name);
+							} else {
+								bot.speak(':hurtrealbad: ' + element.name);
+							}
+						});
+
+					})
 				}
 				if (text.match('/djs')) {
 					if (dJList) bot.speak('DJs: '+dJList+'');
 				}
 				/** if bot name is mentioned **/
-				if (text.match(settings.BOT_NAME)) {
-					bot.speak('That\'s my name, don\'t wear it out!');
+				if (text.match(settings.BOT_NAME) && name != settings.BOT_NAME) {
+					bot.speak('That\'s my name, don\'t wear it out, '+ name + '!');
 				}
 				/** Room Rules **/
 				if (text.match(/^(?:\*|\/)rules$/)) {
@@ -105,7 +142,7 @@ var BOT_VERSION = '0.1.0';
 					}
 					
 												
-					current_song ? bot.speak(':notes: "'+songName+'" :cd: Album: '+songAlbum+' :radio: Genre: '+songGenre+'') : bot.speak(':exclamation: No song is playing.');
+					bot.speak(':notes: "'+songName+'" :cd: Album: '+songAlbum+' :radio: Genre: '+songGenre+'');
 						
 					
 				
@@ -119,7 +156,7 @@ var BOT_VERSION = '0.1.0';
 				
 				/** Look in Moderators array or room mods to see if chatting with an admin.
 				If chatting with an admin, allow user to moderate. **/
-				if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
+				if (bIsModerator(user)) {
 
 					/** Update Bot's DJ Queue - push playing song to top of queue **/
 					if (text.match(/^\*top$/)) {
@@ -176,8 +213,13 @@ var BOT_VERSION = '0.1.0';
 							var downvotes = room.metadata.downvotes;
 							var listeners = room.metadata.listeners;
 							var djcount = room.metadata.djcount;
-							bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-							bot.speak(':man:: '+listeners+' :hash: dj\'s: :'+djcount+':');
+							if (room.metadata.current_song != null) { 
+								var current_song = room.metadata.current_song.metadata;
+								bot.speak(':speaker: ' + current_song.song +' by ' + current_song.artist) && 
+								bot.speak(':thumbsdown:'+downvotes+' :thumbsup: '+upvotes + '');
+							} else {
+								bot.speak('No song is playing.');
+							}
 							
 						   });
 					}
@@ -213,12 +255,24 @@ var BOT_VERSION = '0.1.0';
 							
 						}
 						
-						if (vote_log) {
-							//todo
-							/** ---- BEGIN VOTELOG DATA --------------------
-							[ [ '4f9b545caaa5cd2af400022f', 'up' ] ]
-							---- END VOTELOG DATA --------------------
-							**/
+						if (vote_log.length > 0) {
+							vote_log.forEach(async function(el,idx) {
+
+								myVote = el[1];
+								myId = el[0];
+								bot.getProfile(myId, function (data) { 
+									//console.log('data for profile' + JSON.stringify(element)); 
+									if (myId == settings.USERID) {
+										bot.speak(':kiss: I voted ' + myVote);
+									} else {
+										bot.speak(':hurtrealbad: ' + data + ' voted ' + myVote);
+									}
+								});
+		
+							})
+
+						} else {
+							bot.speak('I\'ve got nothing...');
 						}
 					
 	
@@ -227,10 +281,7 @@ var BOT_VERSION = '0.1.0';
 								console.log(vote_log);
 								console.log('---- END VOTELOG DATA --------------------');
 							}
-							
-							/** Show Upvotes, Downvotes for the current song. Show listener count, DJ count. **/
-							bot.speak(':musical_note: :thumbsup:'+upvotes+' :thumbsdown: '+downvotes+'');
-							bot.speak(':man:: '+listeners+' :hash: dj\'s: :'+djcount+':');
+
 							
 						   });
 					}
@@ -244,89 +295,77 @@ var BOT_VERSION = '0.1.0';
 	
 		
 		
-	} //end if settings.TALK_IN_CHAT. This ends the chat section.
+	} //end if settings.BOT_TALK_IN_CHAT. This ends the chat section.
 	
 	
-	if (settings.TALK_IN_PRIVATE) {
 		bot.on('pmmed', function (data) { 
-		/** we have to get the variables again **/
-		var name = data.name;
-		var sender = data.senderid;
-		var text = data.text;
-		var user = data.userid;		
-			/** Test for Bot Responsiveness **/
-			if (text.match(/^hi$/)) {
-		      	bot.pm('Hey! How are you ?',sender);
-				bot.pm('I\'m just glad to have somebody to talk to.',sender);
+		if (settings.BOT_TALK_IN_PRIVATE) {
 
-		   }
-		
-		
-			if (text.match(/^test$/)) {
-				//if (moderatorList.indexOf(user) >= 0) {
-				if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
-					bot.pm('hi mod',sender);
-				} else {
-					bot.pm('hi user '+user+'',sender);					
+			/** settings.BOT_TALK_IN_PRIVATE: we have to get the variables again **/
+			var name = data.name;
+			var sender = data.senderid;
+			var text = data.text;
+			var user = data.userid;		
+			/** settings.BOT_TALK_IN_PRIVATE: Test for Bot Responsiveness **/
+				if (text.match(/^hi$/)) {
+					bot.pm('Hey! How are you ?',sender);
+					bot.pm('I\'m just glad to have somebody to talk to.', sender);
+					//bot.pm('I\'m just glad to have somebody to talk to.',sender);
+
+			}
+			
+			//settings.BOT_TALK_IN_PRIVATE 
+				if (text.match(/^test$/)) {
+					//if (moderatorList.indexOf(user) >= 0) {
+					if (bIsModerator(user)) {
+						bot.pm('hi mod',sender);
+					} else {
+						bot.pm('hi user '+user+'',sender);					
+					}
+
+			}
+
+			/**  settings.BOT_TALK_IN_PRIVATE: Look in Moderators array to see if private messaging (PM) with an admin.
+			If in PM with an admin, allow user to moderate via PM. **/
+			if (bIsModerator(user)) {
+				
+				/** settings.BOT_TALK_IN_PRIVATE: Am I a bot admin? **/
+				if (text.match(/^\/botadmin$/)) {
+					bot.pm('Welcome, admin.',sender);
+				} 
+			
+				
+				/** settings.BOT_TALK_IN_PRIVATE: Upvote Current Song **/
+				if (text.match(/^\/upvote|up$/)) {
+					bot.bop();
 				}
-		   }
+				/** settings.BOT_TALK_IN_PRIVATE: Downvote Current Song **/
+				if (text.match(/^\/downvote|down$/)) {
+					bot.vote('down');
+				}
+				/** settings.BOT_TALK_IN_PRIVATE: Skip Current Song if bot is DJ'ing **/
+				if (text.match(/^\/skip$/)) {
 
-		
-		
-				/** Look in Moderators array to see if private messaging (PM) with an admin.
-		If in PM with an admin, allow user to moderate via PM. **/
-		if (settings.BOT_MODERATORS_ARRAY.indexOf(user) >= 0||moderatorList.indexOf(user) >= 0) {
-			
-			/** Am I a bot admin? **/
-			if (text.match(/^\/botadmin$/)) {
-				bot.pm('Yes, you\'re my admin.',sender);
-			} 
-			
-			/** Make Bot DJ if spot is open **/
-			if (text.match(/^\/dj$/)) {
+					bot.pm('Gonna skip this song.',sender);
+					bot.skip();
+				}			
+				/** settings.BOT_TALK_IN_PRIVATE: Snag the Song Currently Playing **/
+				if (text.match(/^\/feart|\/snag$/)) {
+					bot.pm('Gonna heart this song',sender);
+						bot.roomInfo(true, function(data) {
+						var song = data.room.metadata.current_song._id;
+						var songName = data.room.metadata.current_song.metadata.song;
+							bot.snag();
+							bot.playlistAdd(song);
+					});
+				} //end snag
+			}
+		} //end if settings.BOT_TALK_IN_PRIVATE. This ends the private message section.
 
-				bot.pm('Okay.',sender);
-				bot.addDj();
-			}
-			
-			/** Make Bot quit DJ'ing **/
-			if (text.match(/^\/dj off$/)) {
-
-				bot.pm('Okay.',sender);
-				bot.remDj();
-			}
-			
-			/** Upvote Current Song **/
-			if (text.match(/^\/upvote|up$/)) {
-				bot.bop();
-			}
-			/** Downvote Current Song **/
-			if (text.match(/^\/downvote|down$/)) {
-				bot.vote('down');
-			}
-			/** Skip Current Song if bot is DJ'ing **/
-			if (text.match(/^\/skip$/)) {
-
-				bot.pm('Gonna skip this song.',sender);
-				bot.skip();
-			}			
-			/** Snag the Song Currently Playing **/
-			if (text.match(/^\/feart|\/snag$/)) {
-				bot.pm('Gonna heart this song',sender);
-					bot.roomInfo(true, function(data) {
-				      var song = data.room.metadata.current_song._id;
-				      var songName = data.room.metadata.current_song.metadata.song;
-						bot.snag();
-				      	bot.playlistAdd(song);
-				   });
-			} //end snag
-		}
 		
 	});
-	} //end if settings.TALK_IN_PRIVATE. This ends the private message section.
 	
 	
-	/** The following code is by Alain Gilbert, creator of the API **/
 	//time_afk_list.js code
 	var usersList = { };
 
@@ -344,7 +383,7 @@ var BOT_VERSION = '0.1.0';
 	bot.on('registered',   function (data) {
 	   var user = data.user[0];
 		if (user.userid != settings.USERID) {
-			if (settings.GREET_ON_ENTER) bot.speak('Welcome, '+user.name+'!');
+			if (settings.BOT_GREET_ON_ENTER) bot.speak('Welcome, '+user.name+'!');
 		} else {
 			bot.speak('Hey guys. I am back. (v. '+BOT_VERSION+')');	
 		}
@@ -355,7 +394,7 @@ var BOT_VERSION = '0.1.0';
 	// Someone left, remove him from the users list.
 	bot.on('deregistered', function (data) {
 		var user = data.user[0];
-		if (settings.GREET_ON_EXIT) bot.speak('Come back soon, '+user.name+'!');
+		if (settings.BOT_GREET_ON_EXIT) bot.speak('Come back soon, '+user.name+'!');
 	   delete usersList[data.user[0].userid];
 	});
 
@@ -378,7 +417,9 @@ var BOT_VERSION = '0.1.0';
 	// Someone stepped up to DJ, update his timestamp.
 	bot.on('add_dj', function (data) {
 	   var user = data.user[0];
-		//bot.speak('Are you ready for DJ '+user.name+'?!');
+	   if (settings.BOT_SHOUTOUT_TO_NEW_DJ_ON_DECK) {
+			bot.speak('Are you ready for DJ '+user.name+'?!');
+	   }
 	   usersList[user.userid].lastActivity = new Date();
 	});
 
