@@ -38,9 +38,13 @@ var settings = require('./settings.js');
 	/** SONG - newsong **/
 	bot.on('newsong', function(data) { 
 		/** settings.BOT_AUTO_AWESOME - Auto Bop **/
-		mod_autoBop.newSong(bot);
-		mod_autoDj.newSong(data);
-
+		
+		setInterval(() => { 
+			mod_autoBop.newSong(bot);
+		 }, 10);
+		 setInterval(() => { 
+			mod_autoDj.newSong(data);
+		}, 10);
 
 	});
 	/** SONG - nosong **/
