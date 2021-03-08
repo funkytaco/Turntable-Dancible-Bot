@@ -6,7 +6,7 @@
 var Bot    = require('ttapi');
 var moderatorList = [];
 var dJList = [];
-var BOT_VERSION = '0.1.6';
+var BOT_VERSION = '0.1.7';
 
 
 
@@ -38,7 +38,7 @@ var settings = require('./settings.js');
 	/** SONG - newsong **/
 	bot.on('newsong', function(data) { 
 		/** settings.BOT_AUTO_AWESOME - Auto Bop **/
-		mod_autoBop.newSong(data);
+		mod_autoBop.newSong(bot);
 		mod_autoDj.newSong(data);
 
 
@@ -279,7 +279,8 @@ var settings = require('./settings.js');
 									if (myId == settings.USERID) {
 										bot.speak(':kiss: I voted ' + myVote);
 									} else {
-										bot.speak(':hurtrealbad: ' + data + ' voted ' + myVote);
+
+										bot.speak(':hurtrealbad: ' + data.name + ' voted ' + myVote);
 									}
 								});
 		
@@ -389,12 +390,6 @@ var settings = require('./settings.js');
 
 	// Add everyone in the users list.
 	bot.on('roomChanged',  function (data) {
-	   usersList = { };
-	   for (var i=0; i<data.users.length; i++) {
-	      var user = data.users[i];
-	      user.lastActivity = new Date();
-	      usersList[user.userid] = user;
-	   }
 	});
 
 	// Someone enter the room, add him.
@@ -406,34 +401,20 @@ var settings = require('./settings.js');
 				bot.speak('Genres: House, Tech House, Bass House, G-House encouraged as well as dubstep, riddim, trance techno.');
 			}
 		} else {
-			bot.speak('Hey guys. I am back. (v. '+BOT_VERSION+')');	
+			bot.speak('Hey guys. I am back. (Dancible Bot v. '+BOT_VERSION+')');	
 		}
-	   user.lastActivity = new Date();
-	   usersList[user.userid] = user;
+
 	});
 
-	// Someone left, remove him from the users list.
 	bot.on('deregistered', function (data) {
 		var user = data.user[0];
 		if (settings.BOT_GREET_ON_EXIT) bot.speak('Come back soon, '+user.name+'!');
-	   delete usersList[data.user[0].userid];
 	});
 
-	// Someone talked, update his timestamp.
 	bot.on('speak', function (data) {
-	   usersList[data.userid].lastActivity = new Date();
 	});
 
-	// Someone voted, update his timestamp.
-	/** do_not_use
-	bot.on('update_votes', function (data) {
-	   var votelog = data.room.metadata.votelog;
-	   for (var i=0; i<votelog.length; i++) {
-	      var userid = votelog[i][0];
-	      usersList[userid].lastActivity = new Date();
-	   }
-	});
-	**/
+
 
 	// Someone stepped up to DJ, update his timestamp.
 	bot.on('add_dj', function (data) {
@@ -441,15 +422,12 @@ var settings = require('./settings.js');
 	   if (settings.BOT_SHOUTOUT_TO_NEW_DJ_ON_DECK) {
 			bot.speak('Are you ready for DJ '+user.name+'?!');
 	   }
-	   usersList[user.userid].lastActivity = new Date();
 	   /* Modules */
 	   mod_autoDj.addDj(data, bot);
 	});
 
 	// Someone step down, update his timestamp.
 	bot.on('rem_dj', function (data) {
-	   var user = data.user[0];
-	   usersList[user.userid].lastActivity = new Date();
 	   /* Modules */
 	   mod_autoDj.remDj(data, bot);
 
@@ -457,10 +435,7 @@ var settings = require('./settings.js');
 
 	// Someone add the surrent song to his playlist.
 	bot.on('snagged', function (data) {
-	   var userid = data.userid;
-	   usersList[userid].lastActivity = new Date();
-	   bop.snag();
+	   bot.snag();
 	});
-	//end userlist data
 
 	
