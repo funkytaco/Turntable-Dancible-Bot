@@ -5,7 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "chai": "^3.5.0",
-    "chai-http": "^2.0.1",
+    "chai-http": "^4.3.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "mocha": "^2.4.5",
